@@ -1,6 +1,6 @@
-NAME=0a9_synth_3
+NAME=ss_synth_retrogstudy_06
 TARGETS=$(NAME).iso $(NAME).cue
-TOOLS_PATH=../tools
+TOOLS_PATH=tools
 EMU_YABAUSE=yabause -a -nb -i
 EMU_MEDNAFEN=mednafen -psx.dbg_level 0 -video.fs 0 -cheats 1
 
@@ -22,7 +22,7 @@ src/funcs.o src/funcs_map.sh: src/funcs.sh src/vars_map.sh src/con.sh
 src/vars.o src/vars_map.sh: src/vars.sh font.lut
 	src/vars.sh >src/vars.o
 
-font.lut: ../font_lut
+font.lut: font_lut
 	cat $</* >$@
 
 %.img: %.png
@@ -37,6 +37,9 @@ run_yabause: $(NAME).iso
 run_mednafen: $(NAME).cue
 	$(EMU_MEDNAFEN) $<
 
+setup:
+	$(MAKE) -C tools
+
 run: run_yabause
 
 clean:
@@ -45,5 +48,6 @@ clean:
 
 clean_all: clean
 	rm -f IP.BIN
+	$(MAKE) -C tools clean
 
 .PHONY: run_yabause run_mednafen run clean clean_all
