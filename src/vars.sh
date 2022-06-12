@@ -140,7 +140,7 @@ vars() {
 	# synth: 現在の画面番号(1バイト)
 	var_synth_current_scrnum=$(calc16_8 "$var_synth_osc_pcm_sin_base+($OSC_PCM_NUM_SAMPLES*2)")
 	echo -e "var_synth_current_scrnum=$var_synth_current_scrnum" >>$map_file
-	echo -en "\x$(echo $SCRNUM_OSC)"
+	echo -en "\x$(echo $SCRNUM_TITLE)"
 	# synth: 現在のオシレータカーソルY座標(1バイト)
 	var_synth_current_osc_cursor_y=$(calc16_8 "$var_synth_current_scrnum+1")
 	echo -e "var_synth_current_osc_cursor_y=$var_synth_current_osc_cursor_y" >>$map_file

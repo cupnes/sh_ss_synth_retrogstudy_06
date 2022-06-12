@@ -3,13 +3,14 @@ TARGETS=$(NAME).iso $(NAME).cue
 TOOLS_PATH=tools
 EMU_YABAUSE=yabause -a -nb -i
 EMU_MEDNAFEN=mednafen -psx.dbg_level 0 -video.fs 0 -cheats 1
+SLIDES=$(shell ls slides/*.png)
 
 all: $(TARGETS)
 
 $(NAME).cue: $(NAME).iso
 	$(TOOLS_PATH)/make_cue.sh $< >$@
 
-$(NAME).iso: 0.BIN author.img osc.img pitch_bend.img eg.img lfo.img
+$(NAME).iso: 0.BIN $(SLIDES:%.png=%.img)
 	./iso9660.sh $^ >$@
 
 0.BIN: src/main.sh src/vars.o src/vars_map.sh src/funcs.o	\
@@ -43,7 +44,7 @@ setup:
 run: run_yabause
 
 clean:
-	rm -rf *~ font.lut *.o *.dat *.bin 0.BIN *.lst *.ppm *.img	\
+	rm -rf *~ font.lut *.o *.dat *.bin 0.BIN *.lst slides/*.img	\
 	src/*_map.sh $(TARGETS) src/*~ src/*.o include/*~ doc/*~
 
 clean_all: clean

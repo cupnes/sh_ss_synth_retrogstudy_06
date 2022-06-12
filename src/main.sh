@@ -128,24 +128,10 @@ main() {
 	## 使用する関数のアドレスをレジスタへ設定
 	copy_to_reg_from_val_long r14 $a_synth_put_bg
 	## 画面クリアフラグ=0で関数呼び出し
-	## ※ 初期値はオシレータ画面である想定
-	sh2_set_reg r1 $SCRNUM_OSC
+	## ※ 初期値はタイトル画面である想定
+	sh2_set_reg r1 $SCRNUM_TITLE
 	sh2_abs_call_to_reg_after_next_inst r14
 	sh2_set_reg r2 00
-
-	# 画像を表示した分、各種アドレス変数を進める
-	## キャラクタパターンを配置するアドレス
-	## 画像のサイズ(143360=0x23000バイト)分進める
-	## 0x05C10C00 + 0x23000 = 0x05C33C00
-	copy_to_reg_from_val_long r1 $var_next_cp_other_addr
-	copy_to_reg_from_val_long r2 05C33C00
-	sh2_copy_to_ptr_from_reg_long r1 r2
-	## VDPコマンドを配置するアドレス
-	## コマンドのサイズ(32=0x20)分進める
-	## 0x05C02360 + 0x20 = 0x05C02380
-	copy_to_reg_from_val_long r1 $var_next_vdpcom_other_addr
-	copy_to_reg_from_val_long r2 05C02380
-	sh2_copy_to_ptr_from_reg_long r1 r2
 
 	# オシレータ用のPCMデータをサウンドメモリへ配置
 	copy_to_reg_from_val_long r4 $a_memcpy_word
@@ -208,11 +194,10 @@ main() {
 	copy_to_reg_from_val_long r6 $a_synth_midimsg_deq
 	copy_to_reg_from_val_long r5 $a_synth_midimsg_is_empty
 
-	# 現在のオシレータを示すカーソルを表示する
-	# (デフォルト=ノコギリ波)
-	# ※ 初期画面はオシレータ画面である想定
-	sh2_abs_call_to_reg_after_next_inst r14
-	sh2_nop
+	# # 現在のオシレータを示すカーソルを表示する
+	# # (デフォルト=ノコギリ波)
+	# sh2_abs_call_to_reg_after_next_inst r14
+	# sh2_nop
 
 	# # EG関連のレジスタの現在値を表示する
 	# copy_to_reg_from_val_long r13 $a_synth_put_eg_param
